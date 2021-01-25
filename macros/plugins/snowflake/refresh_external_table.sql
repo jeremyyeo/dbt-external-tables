@@ -11,7 +11,9 @@
     {% if manual_refresh %}
 
         {% set ddl %}
-        alter external table {{source(source_node.source_name, source_node.name)}} refresh
+        begin transaction;
+        alter external table {{source(source_node.source_name, source_node.name)}} refresh;
+        commit;
         {% endset %}
         
         {% do return([ddl]) %}
